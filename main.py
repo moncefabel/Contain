@@ -31,13 +31,10 @@ def classifier(mat, model):
         pred = model.predict(mat)
 
     elif model == 'RF':
-        model = pickle.load(open("classification_model.pkl", "rb"))
+        model = pickle.load(open("Random_Forest.pkl", "rb"))
         pred = model.predict(mat)
 
-    elif model == 'GBC':
-        model = pickle.load(open("classification_model.pkl", "rb"))
-        pred = model.predict(mat)
-
+    
     else:
         raise Exception("Please select one of the three methods : SVM, RF, GBC")
 
@@ -47,14 +44,15 @@ def classifier(mat, model):
 # Import data
 data = pd.read_csv('data/validation_diabetes_health_indicators.csv')
 data['Diabetes_012'] = data['Diabetes_012'].astype(int)
-
+data = data.drop(columns=['Unnamed: 0'])
 X = data.drop(columns=['Diabetes_012'])
+
 y = data['Diabetes_012']
 
 
 
 # Predict labels using trained models
-models = ['SVM', 'RF', 'GBC']
+models = ['SVM', 'RF']
 for model in models:
     # Make prediction
     pred = classifier(X, model)
